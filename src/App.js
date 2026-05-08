@@ -5,22 +5,16 @@ function App() {
 
   const [symptoms, setSymptoms] = useState("");
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  // ✅ Handle Symptom Check
   const handleCheck = async () => {
 
-    // Empty input check
     if (!symptoms) {
       alert("Please enter symptoms");
       return;
     }
 
-    setLoading(true);
-
     try {
 
-      // ✅ Backend API Call
       const res = await axios.post(
         "http://localhost:5000/api/symptom",
         {
@@ -28,15 +22,13 @@ function App() {
         }
       );
 
-      console.log("API RESPONSE:", res.data);
-
       setData(res.data);
 
     } catch (err) {
 
-      console.log("BACKEND ERROR:", err);
+      console.log(err);
 
-      // ✅ Temporary Mock Data
+      // fallback demo data
       setData({
         response: {
           possible_conditions: [
@@ -50,20 +42,20 @@ function App() {
           warning: "This is not medical advice"
         }
       });
-
     }
-
-    setLoading(false);
   };
 
-  // ✅ Severity Color
   const getColor = (severity) => {
-    if (severity === "High") return "#e74c3c";
-    if (severity === "Medium") return "#f39c12";
-    return "#2ecc71";
+
+    if (severity === "High") return "red";
+
+    if (severity === "Medium") return "orange";
+
+    return "green";
   };
 
   return (
+
     <div style={styles.page}>
 
       <div style={styles.card}>
@@ -72,24 +64,22 @@ function App() {
           🧠 AI Health Symptom Checker
         </h1>
 
-        {/* Input */}
         <textarea
           style={styles.textarea}
-          placeholder="Enter symptoms like fever, headache..."
+          placeholder="Enter symptoms..."
           value={symptoms}
           onChange={(e) => setSymptoms(e.target.value)}
         />
 
-        {/* Button */}
         <button
           style={styles.button}
           onClick={handleCheck}
         >
-          {loading ? "Analyzing..." : "Check Symptoms"}
+          Check Symptoms
         </button>
 
-        {/* Results */}
         {data && (
+
           <div style={styles.resultCard}>
 
             <h2>🩺 Results</h2>
@@ -104,10 +94,11 @@ function App() {
 
             <p>
               <b>Severity:</b>{" "}
+
               <span
                 style={{
                   color: getColor(data.response?.severity),
-                  fontWeight: "bold",
+                  fontWeight: "bold"
                 }}
               >
                 {data.response?.severity}
@@ -132,7 +123,6 @@ function App() {
   );
 }
 
-// ✅ Styles
 const styles = {
 
   page: {
@@ -141,7 +131,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "20px",
+    padding: "20px"
   },
 
   card: {
@@ -149,13 +139,12 @@ const styles = {
     background: "white",
     padding: "30px",
     borderRadius: "20px",
-    boxShadow: "0 0 20px rgba(0,0,0,0.1)",
+    boxShadow: "0 0 20px rgba(0,0,0,0.1)"
   },
 
   title: {
     textAlign: "center",
-    marginBottom: "20px",
-    fontSize: "42px",
+    marginBottom: "20px"
   },
 
   textarea: {
@@ -164,8 +153,7 @@ const styles = {
     padding: "15px",
     fontSize: "18px",
     borderRadius: "10px",
-    border: "1px solid #ccc",
-    resize: "none",
+    border: "1px solid #ccc"
   },
 
   button: {
@@ -177,23 +165,20 @@ const styles = {
     border: "none",
     borderRadius: "10px",
     fontSize: "18px",
-    cursor: "pointer",
+    cursor: "pointer"
   },
 
   resultCard: {
     marginTop: "25px",
     background: "#f9fafb",
     padding: "20px",
-    borderRadius: "12px",
-    lineHeight: "1.8",
+    borderRadius: "12px"
   },
 
   warning: {
     color: "red",
-    fontWeight: "bold",
-    marginTop: "15px",
+    fontWeight: "bold"
   }
-
 };
 
 export default App;
