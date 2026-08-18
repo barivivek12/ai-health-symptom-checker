@@ -2,9 +2,9 @@
 
 AI HealthMate is a full-stack MERN web application that uses Generative AI to provide educational health information based on user-described symptoms.
 
-The application accepts symptoms from the user, sends them to a Node.js/Express backend, processes them using the Gemini API, and displays possible conditions, severity, recommendations, and warning signs. Symptom analysis history is stored in MongoDB.
+The application accepts symptoms from the user, sends them to a Node.js/Express backend, processes them using the Google Gemini API, and displays possible conditions, severity, recommendations, and warning signs. Symptom analysis history is stored in MongoDB.
 
-> ⚠️ **Disclaimer:** This application provides general educational information and is not a medical diagnosis. Users should consult a qualified healthcare professional for medical advice.
+> ⚠️ **Disclaimer:** AI HealthMate provides general educational information only. It is not a medical diagnosis and does not replace advice from a qualified healthcare professional.
 
 ---
 
@@ -14,22 +14,22 @@ When people experience common health symptoms, they often search online and rece
 
 AI HealthMate provides a simple interface where users can describe their symptoms and receive a structured educational summary containing:
 
-- Possible conditions
-- Severity level
-- General recommendations
-- Warning signs
-- Previous analysis history
+* Possible conditions
+* Severity level
+* General recommendations
+* Warning signs
+* Previous analysis history
 
 ---
 
 ## 🎯 Objectives
 
-- Provide a simple symptom-analysis interface.
-- Use Generative AI to organize symptom information.
-- Display results in a structured and easy-to-understand format.
-- Store previous symptom analyses using MongoDB.
-- Detect selected emergency-related symptoms before sending them to the AI service.
-- Handle API and database errors gracefully.
+* Provide a simple symptom-analysis interface.
+* Use Generative AI to organize symptom information.
+* Display results in a structured and easy-to-understand format.
+* Store previous symptom analyses using MongoDB.
+* Detect selected emergency-related symptoms before sending them to the AI service.
+* Handle API and database errors gracefully.
 
 ---
 
@@ -39,27 +39,32 @@ AI HealthMate provides a simple interface where users can describe their symptom
 
 Users can enter symptoms such as:
 
-```text
-I have a headache and mild fever since morning.
+> I have a headache and mild fever since morning.
+
+The application sends the symptom information to the backend, which processes it using the Gemini API and returns a structured educational response.
 
 ### 📊 Structured Results
 
 The application displays:
 
-- Possible conditions
-- Severity
-- Recommendations
-- Warning signs
+* Possible conditions
+* Severity level
+* General recommendations
+* Warning signs
 
 ### 🚨 Emergency Detection
 
-The backend checks selected emergency-related symptoms such as:
+The backend checks for selected emergency-related keywords such as:
 
-- Chest pain
-- Difficulty breathing
-- Unconsciousness
-- Heavy bleeding
-- Heart attack
+* Chest pain
+* Difficulty breathing
+* Unconsciousness
+* Heavy bleeding
+* Other potentially urgent symptoms
+
+If an emergency-related symptom is detected, the application can provide an urgent-care warning before proceeding with normal AI analysis.
+
+> ⚠️ This feature is a basic safety check and does not diagnose medical emergencies.
 
 ### 🗃️ Symptom History
 
@@ -69,11 +74,11 @@ Previous symptom analyses are stored in MongoDB and displayed in the Recent Anal
 
 The application handles:
 
-- Invalid symptom input
-- Gemini API errors
-- API rate limits
-- Invalid AI responses
-- MongoDB connection problems
+* Invalid symptom input
+* Gemini API errors
+* API rate limits
+* Invalid AI responses
+* MongoDB connection problems
 
 ---
 
@@ -81,33 +86,33 @@ The application handles:
 
 ### Frontend
 
-- React
-- JavaScript
-- CSS
-- Axios
+* React
+* JavaScript
+* CSS
+* Axios
 
 ### Backend
 
-- Node.js
-- Express.js
-- REST APIs
-- Axios
+* Node.js
+* Express.js
+* REST APIs
+* Axios
 
 ### Database
 
-- MongoDB
-- Mongoose
+* MongoDB
+* Mongoose
 
-### AI
+### Artificial Intelligence
 
-- Google Gemini API
+* Google Gemini API
 
-### Tools
+### Development Tools
 
-- VS Code
-- Git
-- GitHub
-- npm
+* VS Code
+* Git
+* GitHub
+* npm
 
 ---
 
@@ -122,20 +127,23 @@ Axios
   ↓
 Node.js + Express Backend
   ↓
+Emergency Symptom Check
+  ↓
 Gemini API
   ↓
 AI Analysis
   ↓
 MongoDB
   ↓
-Results displayed in React
+Results Displayed in React
+```
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-ai-health-symtom-checker/
+ai-health-symptom-checker/
 │
 ├── client/
 │   ├── public/
@@ -148,11 +156,9 @@ ai-health-symtom-checker/
 │       └── index.css
 │
 ├── models/
-│   ├── History.js
-│   └── User.js
+│   └── History.js
 │
 ├── routes/
-│   ├── auth.js
 │   ├── history.js
 │   └── symptom.js
 │
@@ -161,38 +167,43 @@ ai-health-symtom-checker/
 ├── package-lock.json
 ├── .gitignore
 └── README.md
+```
 
+> **Note:** Keep `User.js` and `auth.js` in this section only if authentication is actually implemented in your current project.
 
-
-
-```markdown
 ---
 
 ## 🔌 API Endpoints
 
-### Health Check
+### 1. Health Check
 
 ```text
 GET /
+```
 
 Checks whether the backend server is running.
 
-### Analyze Symptoms
+### 2. Analyze Symptoms
 
 ```text
 POST /api/symptom
+```
 
-Example request:
+Analyzes the symptoms provided by the user.
+
+#### Example Request
 
 ```json
 {
   "symptoms": "I have a headache and mild fever"
 }
+```
 
-### Get Symptom History
+### 3. Get Symptom History
 
 ```text
 GET /api/symptom/history
+```
 
 Retrieves previously stored symptom analyses.
 
@@ -204,12 +215,16 @@ Retrieves previously stored symptom analyses.
 
 ```bash
 git clone https://github.com/barivivek12/ai-health-symptom-checker
-cd ai-health-symtom-checker
+cd ai-health-symptom-checker
+```
 
 ### 2. Install Backend Dependencies
 
+From the project root:
+
 ```bash
 npm install
+```
 
 ### 3. Install Frontend Dependencies
 
@@ -217,6 +232,7 @@ npm install
 cd client
 npm install
 cd ..
+```
 
 ---
 
@@ -227,6 +243,9 @@ Create a `.env` file in the project root:
 ```env
 MONGO_URI=your_mongodb_connection_string
 GEMINI_API_KEY=your_gemini_api_key
+```
+
+> 🔒 Never upload your `.env` file or API keys to GitHub.
 
 ---
 
@@ -238,11 +257,13 @@ From the project root:
 
 ```bash
 npm start
+```
 
-Backend runs on:
+The backend runs on:
 
 ```text
 http://localhost:5000
+```
 
 ### Start Frontend
 
@@ -251,50 +272,83 @@ Open another terminal:
 ```bash
 cd client
 npm start
+```
 
-Frontend runs on:
+The frontend runs on:
 
 ```text
 http://localhost:3000
+```
 
 ---
 
 ## 💡 Why MERN?
 
-- **MongoDB** – stores symptom analysis history.
-- **Express.js** – handles REST APIs.
-- **React** – provides the interactive user interface.
-- **Node.js** – runs the backend server.
+### MongoDB
+
+Used to store symptom analysis history.
+
+### Express.js
+
+Used to create and handle REST APIs.
+
+### React
+
+Used to build the interactive frontend user interface.
+
+### Node.js
+
+Used to run the backend server and handle server-side operations.
+
+The MERN stack allows the frontend, backend, and database to work together using JavaScript-based technologies.
+
+---
+
+## 🔄 How the Application Works
+
+1. The user enters their symptoms in the React interface.
+2. React sends the symptoms to the Express backend using Axios.
+3. The backend validates the input.
+4. Selected emergency-related symptoms are checked.
+5. The backend sends the symptoms to the Gemini API.
+6. Gemini generates an educational analysis.
+7. The backend processes the AI response.
+8. The analysis is stored in MongoDB.
+9. The results are returned to the React frontend.
+10. The user can view the analysis and previous history.
 
 ---
 
 ## 🚀 Future Enhancements
 
-- User authentication
-- Personalized health history
-- Doctor consultation integration
-- Appointment booking
-- Multilingual support
-- Voice-based symptom input
-- Cloud deployment
-- Improved AI response validation
+* User authentication
+* Personalized health history
+* Doctor consultation integration
+* Appointment booking
+* Multilingual support
+* Voice-based symptom input
+* Cloud deployment
+* Improved AI response validation
 
 ---
 
 ## 📚 What I Learned
 
-Through this project, I worked with:
+Through this project, I gained practical experience with:
 
-- React
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- REST APIs
-- Axios
-- Gemini API integration
-- Git and GitHub
-- Full-stack application architecture
+* React
+* JavaScript
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* REST APIs
+* Axios
+* Gemini API integration
+* Git and GitHub
+* Full-stack application architecture
+* API error handling
+* Environment variable management
 
 ---
 
@@ -302,7 +356,17 @@ Through this project, I worked with:
 
 **Full-Stack MERN + Generative AI Project**
 
-React + Node.js + Express.js + MongoDB + Gemini API
+```text
+React
+   +
+Node.js
+   +
+Express.js
+   +
+MongoDB
+   +
+Google Gemini API
+```
 
 ---
 
@@ -310,4 +374,6 @@ React + Node.js + Express.js + MongoDB + Gemini API
 
 AI HealthMate provides general educational information only.
 
-It is not a medical diagnosis and does not replace advice from a qualified healthcare professional.
+It is **not a medical diagnosis** and does not replace advice, diagnosis, or treatment from a qualified healthcare professional.
+
+For serious or emergency symptoms, users should seek appropriate professional medical care immediately.
